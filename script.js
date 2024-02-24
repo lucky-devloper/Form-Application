@@ -7,33 +7,39 @@ formE1.addEventListener('submit', (event) => {
     let useremail = event.target.email.value
     let userphone = event.target.number.value
     let usermessage = event.target.message.value
-    // here add data in local stroage
+
     let userdata = JSON.parse(localStorage.getItem("userdetails")) ?? []
-    // here check tha data is already register or not
+    let isRegistered = false;
+
     userdata.forEach((checkdata) => {
         if (checkdata.name == username || checkdata.email == useremail || checkdata.phone == userphone) {
             alert("already register")
             event.target.reset()
-        }else{
-            userdata.push({
-                "name": username,
-                "email": useremail,
-                "phone": userphone,
-                "message": usermessage
-            })
-        
-            localStorage.setItem("userdetails", JSON.stringify(userdata))
-            event.target.reset()
-            displayData()
-            alert("Register SucessFully")
+            isRegistered = true;
         }
     })
+
+    if (!isRegistered) {
+        userdata.push({
+            "name": username,
+            "email": useremail,
+            "phone": userphone,
+            "message": usermessage
+        })
+
+        localStorage.setItem("userdetails", JSON.stringify(userdata))
+        event.target.reset()
+        displayData()
+        alert("Register Successfully")
+    }
 })
 
-// here display data from local stroage
+
+
 function displayData() {
     let userdata = JSON.parse(localStorage.getItem("userdetails")) ?? []
     let finalData = '';
+
     userdata.forEach((data, index) => {
         finalData += `<div class="data-container">
         <span onclick = removeData(${index})>&times;</span>
@@ -51,7 +57,6 @@ function displayData() {
 }
 displayData()
 
-// here remove data from display or local stroage
 function removeData(index) {
     let userdata = JSON.parse(localStorage.getItem("userdetails")) ?? []
     userdata.splice(index, 1)
@@ -59,3 +64,5 @@ function removeData(index) {
     localStorage.setItem("userdetails", JSON.stringify(userdata))
     displayData()
 }
+
+
