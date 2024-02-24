@@ -7,19 +7,12 @@ formE1.addEventListener('submit', (event) => {
     let useremail = event.target.email.value
     let userphone = event.target.number.value
     let usermessage = event.target.message.value
-    let checkStatus = 0;
-
+    // here add data in local stroage
     let userdata = JSON.parse(localStorage.getItem("userdetails")) ?? []
-
-    userdata.forEach((checkData) => {
-        if (checkData.name == username || checkData.email == useremail || checkData.phone == userphone) {
-            checkStatus = 1;
-        }else{
-            alert("Register Sucessfully")
-        }
-
-        if (checkStatus == 1) {
-            alert("Data Already Register")
+    // here check tha data is already register or not
+    userdata.forEach((checkdata) => {
+        if (checkdata.name == username || checkdata.email == useremail || checkdata.phone == userphone) {
+            alert("already register")
             event.target.reset()
         }else{
             userdata.push({
@@ -32,16 +25,15 @@ formE1.addEventListener('submit', (event) => {
             localStorage.setItem("userdetails", JSON.stringify(userdata))
             event.target.reset()
             displayData()
+            alert("Register SucessFully")
         }
     })
-
-    
 })
 
+// here display data from local stroage
 function displayData() {
     let userdata = JSON.parse(localStorage.getItem("userdetails")) ?? []
     let finalData = '';
-
     userdata.forEach((data, index) => {
         finalData += `<div class="data-container">
         <span onclick = removeData(${index})>&times;</span>
@@ -59,6 +51,7 @@ function displayData() {
 }
 displayData()
 
+// here remove data from display or local stroage
 function removeData(index) {
     let userdata = JSON.parse(localStorage.getItem("userdetails")) ?? []
     userdata.splice(index, 1)
@@ -66,6 +59,3 @@ function removeData(index) {
     localStorage.setItem("userdetails", JSON.stringify(userdata))
     displayData()
 }
-
-
-
